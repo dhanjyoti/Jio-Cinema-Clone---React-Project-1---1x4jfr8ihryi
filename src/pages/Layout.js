@@ -26,7 +26,7 @@ const navItems = [
   ]
 const Layout = () => {
     return (
-        <div>
+        <div className="w-full bg-[#0d0e10] min-h-screen">
         <Header items={navItems} />
         <Outlet />
       </div>
