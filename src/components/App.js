@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import Layout from "../pages/Layout";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Show from "../pages/Show";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route Component={Home} index/>
           <Route Component={Login} path="login"/>
           <Route Component={Register} path="register"/>
+          <Route Component={Show} path="show"/>
         </Route>
       </Routes>
 

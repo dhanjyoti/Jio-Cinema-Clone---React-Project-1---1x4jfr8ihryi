@@ -3,15 +3,18 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react"
 const UserContext = createContext(null)
 
 const getUser = ()=>{
-    return localStorage.getItem('user')
+    try {
+        return JSON.parse(localStorage.getItem('user'))
+    } catch (error) {
+        return null
+    }
+    
 }
 export const UserProvider = ({children})=>{
     const [user, setUser]=useState(getUser())
 
     useEffect(()=>{
-        if(user){
-            localStorage.setItem('user', JSON.stringify(user))
-        }
+        localStorage.setItem('user', JSON.stringify(user))
     },[user])
 
     return <UserContext.Provider value={useMemo(()=>({user, setUser}),[user, setUser])}>

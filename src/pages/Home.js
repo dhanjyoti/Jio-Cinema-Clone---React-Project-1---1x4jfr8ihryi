@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../Utils/api";
 import Card from "../components/Card";
 import { titleCase } from "../Utils/commons";
+import { useNavigate } from "react-router-dom";
 
 const categorize = (items) => {
 
@@ -24,6 +25,7 @@ const categorize = (items) => {
 const Home = () => {
     const [showCollection, setShowCollection] = useState(null)
 
+    const navigate = useNavigate()
     // api called for getting shows
 
     useEffect(() => {
@@ -45,7 +47,9 @@ const Home = () => {
                     <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
                     <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
                     {category.items.map((show)=>{
-                        return <Card thumbnail={show.thumbnail} key={show._id}/>
+                        return <Card onClick={()=>{
+                        navigate("/show?id="+show._id)
+                        }} thumbnail={show.thumbnail} key={show._id}/>
                     })}
                     </div>
                     

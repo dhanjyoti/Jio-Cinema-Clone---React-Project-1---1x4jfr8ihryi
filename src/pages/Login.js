@@ -39,7 +39,7 @@ const Login = ({})=>{
     }
 
     return <div className="pt-32 flex items-center justify-center flex-col gap-3">
-        <div className="text-2xl text-white">Register</div>
+        <div className="text-2xl text-white">Login</div>
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <Input placeholder={"Email"} type={'email'} required value={email} onChange={({target})=>{
                 setEmail(target.value)
