@@ -6,6 +6,7 @@ import Layout from "../pages/Layout";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Show from "../pages/Show";
+import Wishlist from "../pages/Wishlist";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route Component={Login} path="login"/>
           <Route Component={Register} path="register"/>
           <Route Component={Show} path="show"/>
+          <Route Component={Wishlist} path="wishlist"/>
         </Route>
       </Routes>
 

@@ -64,7 +64,9 @@ const Layout = () => {
           {/* IF there user logged in then following items will be show in the ui. */}
           {user && <div className="mt-3">
             <NavItem>Edit profile</NavItem>
-            <NavItem>Wishlist</NavItem>
+            <NavItem onClick={()=>{
+              navigate("/wishlist")
+            }}>Wishlist</NavItem>
             <NavSeparator/>
             <NavItem onClick={()=>{
               setUser(null)
