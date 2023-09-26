@@ -10,24 +10,28 @@ import NavItem, { NavSeparator } from "../components/NavItem";
 // added array for Navbar Links.
 const navItems = [
   {
-    label: "For You",
-    to: "/foryou"
+    label: "Web series",
+    to: "?type=Web series"
   },
   {
-    label: "Sports",
-    to: "/sports"
+    label: "Tv show",
+    to: "?type=Tv show"
   },
   {
     label: "Movies",
-    to: "/movies"
+    to: "?type=movie"
   },
   {
-    label: "TV Shows",
-    to: "/tvshows"
+    label: "Documentary",
+    to: "?type=Documentary"
+  },
+  {
+    label: "Trailer",
+    to: "?type=Trailer"
   },
   {
     label: "NEWS",
-    to: "/news"
+    to: "?type=news"
   }
 ]
 const Layout = () => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../Utils/api";
 import Card from "../components/Card";
 import { titleCase } from "../Utils/commons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const categorize = (items) => {
 
@@ -27,10 +27,12 @@ const Home = () => {
 
     const navigate = useNavigate()
     // api called for getting shows
+    let [searchParams, setSearchParams] = useSearchParams();
+
 
     useEffect(() => {
         (async () => {
-            let res = await api.getShows()
+            let res = await api.getShows(searchParams.get('type')?.toLocaleLowerCase())
             if (res) {
                 setShowCollection(categorize(res.data))
                 console.log(res.data)
@@ -39,7 +41,8 @@ const Home = () => {
             }
         })()
 
-    }, [])
+    }, [searchParams])
+
     return (
         <div className="flex flex-col gap-2 w-full">
             {showCollection && showCollection.map((category)=>{

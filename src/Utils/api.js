@@ -1,7 +1,14 @@
 import http from "./http"
 
-const getShows = async () => {
-   return (await http.get("ott/show?limit=100")).data
+const getShows = async (type) => {
+    let params = ''
+    if(type){
+        params = '&filter='+encodeURIComponent(`{"type" : "${type}"}`)
+    }
+
+    console.log(`/ott/show?limit=100&filter=`+encodeURIComponent(`{"type" : "web series"}`));
+
+   return (await http.get(`/ott/show?limit=100`+params)).data
 }
 
 const getShow = async (id) => {
