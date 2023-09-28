@@ -7,8 +7,10 @@ const useSearch = ()=>{
 
         let params = ''
         if(text){
-            params = '&filter='+encodeURIComponent(`{"title" : "${text?.toLowerCase()}"}`)
+            params = '&search='+encodeURIComponent(text)
         }
+
+        console.log(params, "...params");
 
      navigate('/?'+params)
     }

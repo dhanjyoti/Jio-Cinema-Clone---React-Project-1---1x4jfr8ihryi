@@ -31,13 +31,14 @@ const Home = () => {
 
 
     useEffect(() => {
+        console.log(searchParams.get('type'));
         (async () => {
-            let res = await api.getShows(searchParams.get('type')?.toLocaleLowerCase())
-            if (res) {
+            try {
+                let res = await api.getShows(searchParams.get('type')?.toLocaleLowerCase(), searchParams.get('search'))
                 setShowCollection(categorize(res.data))
-                console.log(res.data)
-            } else {
-                console.log("Error fetching shows")
+            } catch (e) {
+                console.log("Error fetching shows", e)
+                setShowCollection([])
             }
         })()
 
@@ -45,19 +46,22 @@ const Home = () => {
 
     return (
         <div className="flex flex-col gap-2 w-full">
-            {showCollection && showCollection.map((category)=>{
+            {showCollection && showCollection.map((category) => {
                 return <div className="flex flex-col">
                     <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
                     <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
-                    {category.items.map((show)=>{
-                        return <Card onClick={()=>{
-                        navigate("/show?id="+show._id)
-                        }} thumbnail={show.thumbnail} key={show._id}/>
-                    })}
+                        {category.items.map((show) => {
+                            return <Card onClick={() => {
+                                navigate("/show?id=" + show._id)
+                            }} thumbnail={show.thumbnail} key={show._id} />
+                        })}
                     </div>
-                    
+
                 </div>
             })}
+            {
+                (!showCollection || showCollection.length === 0) && !!searchParams.get('search') && <div className="flex items-center justify-center text-white py-10"> No search result found.</div>
+            }
         </div>
     )
 }

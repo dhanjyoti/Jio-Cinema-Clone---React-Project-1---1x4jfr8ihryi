@@ -50,10 +50,10 @@ const Layout = () => {
         <div className="p-4">
           <div className="rounded-lg bg-[#ffffff29] mt-10 px-4 py-6 flex flex-col gap-4 items-center">
             <div className="-mt-11"><Avatar /></div>
-            <div>{user?<div className="flex flex-col items-center">
+            <div>{user ? <div className="flex flex-col items-center">
               <div className="font-bold text-2xl">{user.data?.name}</div>
               <div className="text-xs">{user.data?.email}</div>
-            </div>:"Guest"}</div>
+            </div> : "Guest"}</div>
             {/* If there is no user logged in then it will show login and register ui. */}
             {!user && <>
               <div className="w-fit">
@@ -67,12 +67,14 @@ const Layout = () => {
 
           {/* IF there user logged in then following items will be show in the ui. */}
           {user && <div className="mt-3">
-            <NavItem>Edit profile</NavItem>
-            <NavItem onClick={()=>{
+            <NavItem onClick={() => {
+              navigate("/profile")
+            }}>Edit profile</NavItem>
+            <NavItem onClick={() => {
               navigate("/wishlist")
             }}>Wishlist</NavItem>
-            <NavSeparator/>
-            <NavItem onClick={()=>{
+            <NavSeparator />
+            <NavItem onClick={() => {
               setUser(null)
               navigate("/")
             }}>Logout</NavItem>

@@ -1,12 +1,14 @@
+import { titleCase } from "./commons";
 import http from "./http"
 
-const getShows = async (type) => {
+const getShows = async (type, search) => {
     let params = ''
-    if(type){
-        params = '&filter='+encodeURIComponent(`{"type" : "${type}"}`)
+    if(type || search){
+        let title = search?{title:search}:{}
+        let filter = JSON.stringify({...{type, ...title}})
+        params = '&filter='+encodeURIComponent(filter)
     }
 
-    console.log(`/ott/show?limit=100&filter=`+encodeURIComponent(`{"type" : "web series"}`));
 
    return (await http.get(`/ott/show?limit=100`+params)).data
 }
@@ -32,11 +34,16 @@ const login = async ({data})=>{
     return (await http.post("user/login", data)).data
 }
 
+const updateProfile = async ({data})=>{
+    return (await http.patch("/user/updateProfileImage", data)).data
+}
+
 const api = {
     getShows,
     getShow,
     getWishlist,
     addToWishlist,
+    updateProfile,
     register,
     login
 }
