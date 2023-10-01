@@ -47,7 +47,7 @@ const Home = () => {
     return (
         <div className="flex flex-col gap-2 w-full">
             {showCollection && showCollection.map((category) => {
-                return <div className="flex flex-col">
+                return <div key={category.category} className="flex flex-col">
                     <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
                     <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
                         {category.items.map((show) => {

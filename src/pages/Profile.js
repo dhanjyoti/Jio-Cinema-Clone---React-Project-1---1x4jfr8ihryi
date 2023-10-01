@@ -3,6 +3,7 @@ import useUser from "../Utils/useUser"
 import Input from "../components/Input"
 import { useNavigate } from "react-router-dom"
 import Avatar from "../components/Avatar"
+import Button from "../components/Button"
 import api from "../Utils/api"
 
 const Profile = ({ }) => {
@@ -25,10 +26,14 @@ const Profile = ({ }) => {
     const [registerDate, setRegisterDate] = useState(user.data.createdAt)
     const [profile, setProfile]=useState(null)
 
+    const [edited, setEdited]= useState(false)
+
+    const [loading, setLoading]=useState(false)
+
     const uploadProfile = async (formData) => {
 
         try {
-            const res = await api.updateProfile({ data: formData })
+            const res = await api.updateProfileImage({ data: formData })
             console.log(res.data.user.profileImage);
             let tempUser = {...user}
             tempUser.data.profileImage = res.data.user.profileImage
@@ -37,6 +42,38 @@ const Profile = ({ }) => {
             console.log(e)
         }
     }
+
+    const updateMe = async (formData) => {
+
+        try {
+            const res = await api.updateMe({ data: formData })
+            setUser({...user, data:res.data.user})
+        } catch (e) {
+            alert("Unable to update profile.")
+        }
+    }
+
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
+
+        // double ! means, it converts object to boolean
+        if(!!name){
+            setLoading(true)
+            await updateMe({name:name})
+            // location.href="profile"
+            navigate(0)
+        }
+    }
+
+    //to check if data is edited or not and show save button base on it.
+    useEffect(()=>{
+        //user.data.name is original data
+        if(name !== user.data.name || email !== user.data.email){
+            setEdited(true)
+        }else{
+            setEdited(false)
+        }
+    },[name, email])
 
     return <div className="text-white px-5 py-8 flex flex-col gap-4 items-center">
         <div>
@@ -53,19 +90,22 @@ const Profile = ({ }) => {
                 }} />
             </label>
         </div>
-        <form className="flex flex-col gap-5 w-1/2">
+        <form className="flex flex-col gap-5 w-1/2"  onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
                 <span className="font-bold">Name</span>
-                <Input value={name} onChange={({ target }) => { setName(target.value) }} />
+                <Input name={"name"} value={name} onChange={({ target }) => { setName(target.value) }} />
             </div>
             <div className="flex flex-col gap-1">
                 <span className="font-bold">Email</span>
-                <Input value={email} onChange={({ target }) => { setEmail(target.value) }} />
+                <Input disabled={true} name={"email"} value={email} onChange={({ target }) => { setEmail(target.value) }} />
             </div>
             <div className="flex flex-col gap-1">
                 <span className="font-bold">Date of registration</span>
                 <Input disabled={true} value={new Date(registerDate).toDateString()} />
             </div>
+            {edited && <div className="flex flex-col gap-1 w-1/2 self-center">
+                <Button content={"Save"} type={"submit"} loading={loading}/>
+            </div>}
 
         </form>
     </div>

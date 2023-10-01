@@ -14,6 +14,7 @@ const useSearch = ()=>{
 
      navigate('/?'+params)
     }
+    
     return {search}
 }
 

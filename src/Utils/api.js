@@ -34,8 +34,12 @@ const login = async ({data})=>{
     return (await http.post("user/login", data)).data
 }
 
-const updateProfile = async ({data})=>{
+const updateProfileImage = async ({data})=>{
     return (await http.patch("/user/updateProfileImage", data)).data
+}
+
+const updateMe = async ({data})=>{
+    return (await http.patch("/user/updateMe", data)).data
 }
 
 const api = {
@@ -43,7 +47,8 @@ const api = {
     getShow,
     getWishlist,
     addToWishlist,
-    updateProfile,
+    updateProfileImage,
+    updateMe,
     register,
     login
 }

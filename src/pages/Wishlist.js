@@ -53,7 +53,7 @@ const Wishlist = () => {
                 {/* Display all wishlist if there are wishlists in api. */}
             <div className="flex flex-row items-center gap-3 flex-wrap w-full">
             {showCollection && showCollection.map((show) => {
-                return <div className=" group/card  relative">
+                return <div key={show._id} className=" group/card  relative">
                     <Card loading={removing === show._id} onClick={() => {
                         navigate("/show?id=" + show._id)
                     }} thumbnail={show.thumbnail} key={show._id} />

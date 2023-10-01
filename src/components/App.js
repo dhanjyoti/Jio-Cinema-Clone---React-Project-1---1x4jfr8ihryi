@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, Link } from "react-router-dom";
 import "../styles/App.css";
 import Header from "./Header";
 import Home from "../pages/Home";
@@ -8,19 +8,21 @@ import Register from "../pages/Register";
 import Show from "../pages/Show";
 import Wishlist from "../pages/Wishlist";
 import Profile from "../pages/Profile";
+import Test from "../pages/Test";
+import X from "../pages/X";
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route Component={Layout} path="/" >
-          <Route Component={Home} index/>
-          <Route Component={Login} path="login"/>
-          <Route Component={Register} path="register"/>
-          <Route Component={Show} path="show"/>
-          <Route Component={Wishlist} path="wishlist"/>
-          <Route Component={Profile} path="profile"/>
+        <Route element={<Layout />} path="/" >
+          <Route element={<Home />} index/>
+          <Route element={<Login />} path="/login"/>
+          <Route element={<Register />} path="/register"/>
+          <Route element={<Show />} path="show"/>
+          <Route element={<Wishlist />} path="/wishlist"/>
+          <Route element={<Profile />} path="/profile"/>
         </Route>
       </Routes>
 
