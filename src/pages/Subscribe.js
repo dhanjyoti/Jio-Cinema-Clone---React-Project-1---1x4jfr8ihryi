@@ -72,13 +72,17 @@ const Subscribe = () => {
                 <li>Upto 4 devices simultaneously</li>
             </ul>
             <div className="flex flex-row pt-3 justify-between">
-                <div className="rounded border p-1 text-sm h-fit" style={{ color: 'rgb(255, 224, 150)', borderColor: 'rgb(166, 140, 87)' }}>12 Months</div>
+                <div className="rounded border p-1 text-sm h-fit font-semibold" style={{ color: 'rgb(255, 224, 150)', borderColor: 'rgb(166, 140, 87)' }}>12 Months</div>
                 <div className="flex flex-row  font-bold gap-1">
                     <span className="self-start text-lg">₹</span>
                     <div className="text-4xl">
                         999
-                    </div></div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div className="text-xs mt-10 text-center">
+        By continuing you agree to our <a href="/" className="text-[#ff4ef5]">Terms of Use</a> and acknowledge that you have read our <a href="/" className="text-[#ff4ef5]">Privacy Policy</a>.
         </div>
     </div>
 }

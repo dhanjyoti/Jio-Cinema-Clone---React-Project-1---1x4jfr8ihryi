@@ -8,19 +8,3 @@ body,
     width: 100%;
     min-height: 100vh;
 }
-
-/* Hide the scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-    width: 0;
-}
-
-/* Optional: Customize the scrollbar track and thumb appearance */
-.no-scrollbar::-webkit-scrollbar-track {
-    background-color: transparent;
-    /* Change to your desired color */
-}
-
-.no-scrollbar::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    /* Change to your desired color */
-}

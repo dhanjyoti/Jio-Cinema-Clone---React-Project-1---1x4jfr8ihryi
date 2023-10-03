@@ -42,6 +42,10 @@ const updateMe = async ({data})=>{
     return (await http.patch("/user/updateMe", data)).data
 }
 
+const updatePassword = async ({data})=>{
+    return (await http.patch("/user/updateMyPassword", data)).data
+}
+
 const api = {
     getShows,
     getShow,
@@ -50,7 +54,8 @@ const api = {
     updateProfileImage,
     updateMe,
     register,
-    login
+    login,
+    updatePassword
 }
 
 export default api;

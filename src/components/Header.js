@@ -27,6 +27,8 @@ const Header = ({ items = [], onAvatarClicked }) => {
     return (
         <div className="bg-[#0d0e10] flex flex-row items-center py-4">
             <a href="/" className="pl-5"><img src="https://www.jiocinema.com/images/jc_logo_v2.svg"/></a>
+            <a href="/subscribe" className=" ml-2 block px-2 py-0.5 font-bold text-sm rounded-full border-2" style={{borderColor:'rgb(166, 140, 87)', color:'rgb(166, 140, 87)'}}>Subscribe</a>
+            
             <ul className="flex flex-row items-center gap-1 flex-1">
                 {/* created unique key using href(item.to) and item.label*/}
                 

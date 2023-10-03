@@ -24,18 +24,24 @@ const Profile = ({ }) => {
     const [name, setName] = useState(user.data.name)
     const [email, setEmail] = useState(user.data.email)
     const [registerDate, setRegisterDate] = useState(user.data.createdAt)
-    const [profile, setProfile]=useState(null)
+    const [profile, setProfile] = useState(null)
 
-    const [edited, setEdited]= useState(false)
+    const [newPassword, setNewPassword]=useState('')
+    const [currentPassword, setCurrentPassword]=useState('')
+    const [confirmPassword, setConfirmPassword]=useState('')
+    const [showPasswordChange, setShowPasswordChange]=useState(false)
 
-    const [loading, setLoading]=useState(false)
+    const [edited, setEdited] = useState(false)
+
+    const [loading, setLoading] = useState(false)
+    const [passwordLoading, setPasswordLoading] = useState(false)
 
     const uploadProfile = async (formData) => {
 
         try {
             const res = await api.updateProfileImage({ data: formData })
             console.log(res.data.user.profileImage);
-            let tempUser = {...user}
+            let tempUser = { ...user }
             tempUser.data.profileImage = res.data.user.profileImage
             setUser(tempUser)
         } catch (e) {
@@ -47,41 +53,61 @@ const Profile = ({ }) => {
 
         try {
             const res = await api.updateMe({ data: formData })
-            setUser({...user, data:res.data.user})
+            setUser({ ...user, data: res.data.user })
         } catch (e) {
             alert("Unable to update profile.")
         }
     }
 
-    const handleSubmit = async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         // double ! means, it converts object to boolean
-        if(!!name){
+        if (!!name) {
             setLoading(true)
-            await updateMe({name:name})
+            await updateMe({ name: name })
             // location.href="profile"
             navigate(0)
         }
     }
 
     //to check if data is edited or not and show save button base on it.
-    useEffect(()=>{
+    useEffect(() => {
         //user.data.name is original data
-        if(name !== user.data.name || email !== user.data.email){
+        if (name !== user.data.name || email !== user.data.email) {
             setEdited(true)
-        }else{
+        } else {
             setEdited(false)
         }
-    },[name, email])
+    }, [name, email])
+
+
+    const handlePasswordUpdate = async (e) => {
+        e.preventDefault()
+        
+        // double ! means, it converts object to boolean
+        if (newPassword === confirmPassword) {
+            setPasswordLoading(true)
+           try{
+            await api.updatePassword({data:{appType:"ott", name:user.data.name, email:user.data.email,passwordCurrent:currentPassword, password:newPassword}})
+           }catch{
+            alert("Password doesnot matches")
+           }finally{
+            setPasswordLoading(false)
+           }
+            navigate(0)
+        }else{
+            alert("Password doesnot matches")
+        }
+    }
 
     return <div className="text-white px-5 py-8 flex flex-col gap-4 items-center">
         <div>
             <a className="text-white text-xl" href="/">{'Profile'}</a>
         </div>
         <div className="relative flex flex-col gap-2 items-center">
-            <Avatar logo={user.data.profileImage?user.data.profileImage:null}/>
-            <label class="block text-sky-600 cursor-pointer">
+            <Avatar logo={user.data.profileImage ? user.data.profileImage : null} />
+            <label className="block text-sky-600 cursor-pointer">
                 <span>Choose profile photo</span>
                 <input value={profile} type="file" class="hidden" onChange={async (e) => {
                     let formData = new FormData()
@@ -90,7 +116,7 @@ const Profile = ({ }) => {
                 }} />
             </label>
         </div>
-        <form className="flex flex-col gap-5 w-1/2"  onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-5 w-1/2" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
                 <span className="font-bold">Name</span>
                 <Input name={"name"} value={name} onChange={({ target }) => { setName(target.value) }} />
@@ -104,10 +130,29 @@ const Profile = ({ }) => {
                 <Input disabled={true} value={new Date(registerDate).toDateString()} />
             </div>
             {edited && <div className="flex flex-col gap-1 w-1/2 self-center">
-                <Button content={"Save"} type={"submit"} loading={loading}/>
+                <Button content={"Save"} type={"submit"} loading={loading} />
             </div>}
 
         </form>
+
+        <div className="mt-5 text-sky-600 cursor-pointer" onClick={()=>setShowPasswordChange((prev)=>!prev)}>{showPasswordChange?"Cancel password change":"Change password"}</div>
+       {showPasswordChange && <form className="mt-5 flex flex-col gap-5 w-1/2" onSubmit={handlePasswordUpdate}>
+       <div className="flex flex-col gap-1">
+                <span className="font-bold">Current password</span>
+                <Input type={'password'} name={"Current Password"} value={currentPassword} onChange={({ target }) => { setCurrentPassword(target.value) }} />
+            </div>
+            <div className="flex flex-col gap-1">
+                <span className="font-bold">New password</span>
+                <Input type={'password'} name={"New Password"} value={newPassword} onChange={({ target }) => { setNewPassword(target.value) }} />
+            </div>
+            <div className="flex flex-col gap-1">
+                <span className="font-bold">Confirm password</span>
+                <Input type={'password'} name={"Confirm Password"} value={confirmPassword} onChange={({ target }) => { setConfirmPassword(target.value) }} />
+            </div>
+            <div className="flex flex-col gap-1 w-1/2 self-center">
+                <Button content={"Update password"} type={"submit"} loading={passwordLoading} />
+            </div>
+        </form>}
     </div>
 }
 
