@@ -3,6 +3,7 @@ import api from "../Utils/api";
 import Card from "../components/Card";
 import { titleCase } from "../Utils/commons";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import News from "./News";
 
 const categorize = (items) => {
 
@@ -45,24 +46,30 @@ const Home = () => {
     }, [searchParams])
 
     return (
-        <div className="flex flex-col gap-2 w-full">
-            {showCollection && showCollection.map((category) => {
-                return <div key={category.category} className="flex flex-col">
-                    <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
-                    <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
-                        {category.items.map((show) => {
-                            return <Card onClick={() => {
-                                navigate("/show?id=" + show._id)
-                            }} thumbnail={show.thumbnail} key={show._id} />
-                        })}
-                    </div>
+        // if type is news then it will render news component
+        <>
+            {searchParams.get('type')?.toLowerCase() !== 'news' && <div className="flex flex-col gap-2 w-full">
+                {showCollection && showCollection.map((category) => {
+                    return <div key={category.category} className="flex flex-col">
+                        <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
+                        <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
+                            {category.items.map((show) => {
+                                return <Card onClick={() => {
+                                    navigate("/show?id=" + show._id)
+                                }} thumbnail={show.thumbnail} key={show._id} />
+                            })}
+                        </div>
 
-                </div>
-            })}
-            {
-                (!showCollection || showCollection.length === 0) && !!searchParams.get('search') && <div className="flex items-center justify-center text-white py-10"> No search result found.</div>
-            }
-        </div>
+                    </div>
+                })}
+                {
+                    (!showCollection || showCollection.length === 0) && !!searchParams.get('search') && <div className="flex items-center justify-center text-white py-10"> No search result found.</div>
+                }
+            </div>}
+            {searchParams.get('type')?.toLowerCase() === 'news' && <News />}
+        </>
+
+
     )
 }
 

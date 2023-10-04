@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import Drawer from "../components/Drawer";
 import { useState } from "react";
@@ -11,34 +11,63 @@ import NavItem, { NavSeparator } from "../components/NavItem";
 const navItems = [
   {
     label: "Web series",
-    to: "?type=Web series"
+    to: "/?type=Web series"
   },
   {
     label: "Tv show",
-    to: "?type=Tv show"
+    to: "/?type=Tv show"
   },
   {
-    label: "Movies",
-    to: "?type=movie"
+    label: "Movie",
+    to: "/?type=movie"
   },
   {
     label: "Documentary",
-    to: "?type=Documentary"
+    to: "/?type=Documentary"
   },
   {
     label: "Trailer",
-    to: "?type=Trailer"
+    to: "/?type=Trailer"
   },
   {
     label: "NEWS",
-    to: "?type=news"
+    to: "/?type=news"
   }
 ]
+
+const FooterList = [
+  {
+    label: "Web series",
+    to: "/?type=Web series"
+  },
+  {
+    label: "Tv show",
+    to: "/?type=Tv show"
+  },
+  {
+    label: "Movie",
+    to: "/?type=movie"
+  },
+]
+const FooterMenu = () => {
+  const [searchP] = useSearchParams()
+
+  return <ul className=" bg-[#0d0e10] fixed bottom-0 left-0 right-0 flex flex-rowitems-center z-50 text-white" style={{boxShadow: '0px -10px 20px -4px rgba(0,0,0,0.75)'}}>
+    {FooterList.map((fl)=><FooterLink key={fl.to} to={fl.to} active={searchP.get('type')?.toLowerCase() === fl.label.toLowerCase()}>{fl.label}</FooterLink>)}
+    <li className="py-5 text-center text-white font-bold block w-1/4">More</li>
+  </ul>
+}
+
+const FooterLink = ({ children, to, active }) => {
+  return (
+      <li className="w-1/4"><Link to={to} className="py-5 text-center text-white font-bold  block" style={active ? { color: "#ff4ef5" } : {}}>{children}</Link></li>
+  )
+}
+
 const Layout = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
   const { user, setUser } = useUser()
 
-  console.log(user);
   const navigate = useNavigate()
   return (
     <div className="w-full bg-[#0d0e10] min-h-screen">
@@ -81,6 +110,9 @@ const Layout = () => {
           </div>}
         </div>
       </Drawer>
+      <div className="lg:hidden">
+      <FooterMenu/>
+      </div>
     </div>
   )
 }
