@@ -116,7 +116,7 @@ const Profile = ({ }) => {
                 }} />
             </label>
         </div>
-        <form className="flex flex-col gap-5 w-1/2" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-5 md:w-1/2" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1">
                 <span className="font-bold">Name</span>
                 <Input name={"name"} value={name} onChange={({ target }) => { setName(target.value) }} />
@@ -129,14 +129,14 @@ const Profile = ({ }) => {
                 <span className="font-bold">Date of registration</span>
                 <Input disabled={true} value={new Date(registerDate).toDateString()} />
             </div>
-            {edited && <div className="flex flex-col gap-1 w-1/2 self-center">
+            {edited && <div className="flex flex-col gap-1 md:w-1/2 self-center">
                 <Button content={"Save"} type={"submit"} loading={loading} />
             </div>}
 
         </form>
 
         <div className="mt-5 text-sky-600 cursor-pointer" onClick={()=>setShowPasswordChange((prev)=>!prev)}>{showPasswordChange?"Cancel password change":"Change password"}</div>
-       {showPasswordChange && <form className="mt-5 flex flex-col gap-5 w-1/2" onSubmit={handlePasswordUpdate}>
+       {showPasswordChange && <form className="mt-5 flex flex-col gap-5 md:w-1/2" onSubmit={handlePasswordUpdate}>
        <div className="flex flex-col gap-1">
                 <span className="font-bold">Current password</span>
                 <Input type={'password'} name={"Current Password"} value={currentPassword} onChange={({ target }) => { setCurrentPassword(target.value) }} />
@@ -149,7 +149,7 @@ const Profile = ({ }) => {
                 <span className="font-bold">Confirm password</span>
                 <Input type={'password'} name={"Confirm Password"} value={confirmPassword} onChange={({ target }) => { setConfirmPassword(target.value) }} />
             </div>
-            <div className="flex flex-col gap-1 w-1/2 self-center">
+            <div className="flex flex-col gap-1 md:w-1/2 self-center">
                 <Button content={"Update password"} type={"submit"} loading={passwordLoading} />
             </div>
         </form>}

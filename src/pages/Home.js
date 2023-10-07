@@ -4,6 +4,8 @@ import Card from "../components/Card";
 import { titleCase } from "../Utils/commons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import News from "./News";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
 
 const categorize = (items) => {
 
@@ -48,6 +50,15 @@ const Home = () => {
     return (
         // if type is news then it will render news component
         <>
+            {showCollection && showCollection.length > 0 && <Splide options={{
+                type: 'loop',
+                arrows: null,
+                autoplay: true,
+            }} aria-label="Slideshow">
+                {showCollection.map((cat) => cat.items.slice(0, 2).map((item) => <SplideSlide>
+                    <img className="w-full aspect-video object-cover object-center max-h-[40vh]" src={item.thumbnail} alt={item.title} />
+                </SplideSlide>))}
+            </Splide>}
             {searchParams.get('type')?.toLowerCase() !== 'news' && <div className="flex flex-col gap-2 w-full">
                 {showCollection && showCollection.map((category) => {
                     return <div key={category.category} className="flex flex-col">

@@ -44,7 +44,7 @@ const Wishlist = () => {
     
     return (
         <div className="flex flex-col gap-4 px-5 text-white">
-            <a className="text-white text-xl " href="/">{'< Home'}</a>
+            <a className="text-white text-xl " href="/">&lsaquo;{' Home'}</a>
             {/* show following message if wishlist is empty */}
             {showCollection.length === 0 && <div className="flex items-center justify-center">
                 No shows in wishlist.

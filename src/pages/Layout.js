@@ -1,7 +1,7 @@
-import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import Drawer from "../components/Drawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Avatar from "../components/Avatar";
 import useUser from "../Utils/useUser";
@@ -9,6 +9,10 @@ import NavItem, { NavSeparator } from "../components/NavItem";
 
 // added array for Navbar Links.
 const navItems = [
+  {
+    label: "For you",
+    to: "/"
+  },
   {
     label: "Web series",
     to: "/?type=Web series"
@@ -20,10 +24,6 @@ const navItems = [
   {
     label: "Movie",
     to: "/?type=movie"
-  },
-  {
-    label: "Documentary",
-    to: "/?type=Documentary"
   },
   {
     label: "Trailer",
@@ -37,44 +37,58 @@ const navItems = [
 
 const FooterList = [
   {
+    label: "For you",
+    to: "/"
+  },
+  {
     label: "Web series",
     to: "/?type=Web series"
   },
   {
     label: "Tv show",
     to: "/?type=Tv show"
-  },
-  {
-    label: "Movie",
-    to: "/?type=movie"
-  },
+  }
 ]
-const FooterMenu = () => {
-  const [searchP] = useSearchParams()
-
-  return <ul className=" bg-[#0d0e10] fixed bottom-0 left-0 right-0 flex flex-rowitems-center z-50 text-white" style={{boxShadow: '0px -10px 20px -4px rgba(0,0,0,0.75)'}}>
-    {FooterList.map((fl)=><FooterLink key={fl.to} to={fl.to} active={searchP.get('type')?.toLowerCase() === fl.label.toLowerCase()}>{fl.label}</FooterLink>)}
-    <li className="py-5 text-center text-white font-bold block w-1/4">More</li>
+const FooterMenu = ({onMoreClicked}) => {
+  const location = useLocation()
+  return <ul className=" px-2 bg-[#0d0e10] fixed bottom-0 left-0 right-0 flex flex-row items-center justify-around z-50 text-white" style={{boxShadow: '0px -10px 20px -4px rgba(0,0,0,0.75)'}}>
+    {FooterList.map((fl)=>{
+      return <FooterLink key={fl.to} to={fl.to} active={"/"+decodeURIComponent(location.search) === fl.to}>{fl.label}</FooterLink>})}
+    <li onClick={onMoreClicked} className="text-sm md:text-md py-5 text-center text-white md:font-bold  block">More</li>
   </ul>
 }
 
 const FooterLink = ({ children, to, active }) => {
   return (
-      <li className="w-1/4"><Link to={to} className="py-5 text-center text-white font-bold  block" style={active ? { color: "#ff4ef5" } : {}}>{children}</Link></li>
+      <li className=""><Link to={to} className="text-sm md:text-md py-5 text-center text-white md:font-bold  block" style={active ? { color: "#ff4ef5" } : {}}>{children}</Link></li>
   )
 }
 
 const Layout = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
   const { user, setUser } = useUser()
+  const location = useLocation()
 
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    setOpenDrawer(false)
+  },[location])
+  useEffect(()=>{
+    if(openDrawer){
+      document.body.style.overflow = "hidden"
+    }else{
+      document.body.style.overflow = "auto"
+    }
+  },[openDrawer])
   return (
-    <div className="w-full bg-[#0d0e10] min-h-screen">
+    <div className="w-full bg-[#0d0e10] min-h-screen pt-[68px] pb-16 md:pb-0">
       <Header items={navItems} onAvatarClicked={() => {
         setOpenDrawer(true)
       }} />
+      <div className="pb-2">
       <Outlet />
+      </div>
       <Drawer show={openDrawer} showChange={() => setOpenDrawer(false)}>
         <div className="p-4">
           <div className="rounded-lg bg-[#ffffff29] mt-10 px-4 py-6 flex flex-col gap-4 items-center">
@@ -111,7 +125,9 @@ const Layout = () => {
         </div>
       </Drawer>
       <div className="lg:hidden">
-      <FooterMenu/>
+      <FooterMenu onMoreClicked={()=>{
+         setOpenDrawer((prev)=>!prev)
+      }}/>
       </div>
     </div>
   )
