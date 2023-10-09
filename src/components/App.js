@@ -20,6 +20,7 @@ function App() {
           <Route element={<Wishlist />} path="/wishlist"/>
           <Route element={<Profile />} path="/profile"/>
           <Route element={<Subscribe />} path="/subscribe"/>
+          <Route element={<Home />} path="*"/> {/* If we try to get in any page apart from our routes it will automatically redirect to home page */}
         </Route>
       </Routes>
 
