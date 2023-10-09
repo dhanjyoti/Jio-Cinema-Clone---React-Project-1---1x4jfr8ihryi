@@ -1,16 +1,18 @@
 import { titleCase } from "./commons";
 import http from "./http"
 
-const getShows = async (type, search) => {
+const getShows = async (page, type, search) => {
     let params = ''
     if(type || search){
         let title = search?{title:search}:{}
         let filter = JSON.stringify({...{type, ...title}})
+        console.log(page, );
         params = '&filter='+encodeURIComponent(filter)
     }
 
 
-   return (await http.get(`/ott/show?limit=100`+params)).data
+    //if page is passed then page value will be used else by default page 1 will be fetched.
+   return (await http.get(`/ott/show?page=${page?page:1}&limit=30`+params)).data
 }
 
 const getShow = async (id) => {

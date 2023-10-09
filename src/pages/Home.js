@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../Utils/api";
 import Card from "../components/Card";
 import { titleCase } from "../Utils/commons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import News from "./News";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import useScroll from "../Utils/useScroll";
+import Loading from "../components/Loading";
 
-
+const SECTIONS = ["video song", "web series", "tv show", "short film", "movie", "documentary", "trailer"]
 const categorize = (items) => {
 
     return items.reduce((accumulator, item) => {
@@ -25,27 +27,75 @@ const categorize = (items) => {
     }, []);
 
 }
-const Home = () => {
-    const [showCollection, setShowCollection] = useState(null)
 
+const ShowSection = ({ category, setChange }) => {
+    let c = category.toLowerCase().replace(' ', '-')
+    const isEnd = useScroll({ className: c })
+    const [page, setPage] = useState(2)
+    const fetchingRef = useRef(null)
+    const [data, setData] = useState([])
     const navigate = useNavigate()
-    // api called for getting shows
     let [searchParams, setSearchParams] = useSearchParams();
+
+    const fetchData = async (p) => {
+        (async () => {
+            try {
+                let res = await api.getShows(p, category?.toLocaleLowerCase())
+                if(!p){
+                    setData(res.data)
+                }else{
+                    setData((prev)=>[...prev, ...res.data])
+                }
+            } catch (e) {
+                console.log("Error fetching shows", e)
+                setData([])
+            }
+        })()
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
 
     useEffect(() => {
-        console.log(searchParams.get('type'));
-        (async () => {
-            try {
-                let res = await api.getShows(searchParams.get('type')?.toLocaleLowerCase(), searchParams.get('search'))
-                setShowCollection(categorize(res.data))
-            } catch (e) {
-                console.log("Error fetching shows", e)
-                setShowCollection([])
+        if (isEnd) {
+            console.log(fetchingRef.current);
+            if (fetchingRef.current) {
+                return
             }
-        })()
+            fetchingRef.current = setTimeout(async () => {
+                await fetchData(page)
+                setPage((prev) => prev + 1)
+                fetchingRef.current == null
+            }, 1000);
 
-    }, [searchParams])
+            return () => {
+                clearTimeout(fetchingRef.current)
+                fetchingRef.current = null
+            }
+        }
+    }, [isEnd])
+
+    return  <div key={category} className="flex flex-col">
+        <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category)}</div>
+        <div className={"flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5 " + c}>
+            {data.map((show) => {
+                return <Card onClick={() => {
+                    navigate("/show?id=" + show._id)
+                }} thumbnail={show.thumbnail} key={show._id} />
+            })}
+            <div className="flex items-center justify-center p-5"><Loading size={30} /></div>
+        </div>
+        
+    </div>
+}
+const Home = () => {
+    const [showCollection, setShowCollection] = useState(null)
+
+    
+    // api called for getting shows
+    let [searchParams, setSearchParams] = useSearchParams();
 
     return (
         // if type is news then it will render news component
@@ -60,27 +110,17 @@ const Home = () => {
                 </SplideSlide>))}
             </Splide>}
             {searchParams.get('type')?.toLowerCase() !== 'news' && <div className="flex flex-col gap-2 w-full">
-                {showCollection && showCollection.map((category) => {
-                    return <div key={category.category} className="flex flex-col">
-                        <div className="text-white whitespace-nowrap font-bold text-xl py-4 pl-5">{titleCase(category.category)}</div>
-                        <div className="flex flex-row items-center gap-3 overflow-x-scroll no-scrollbar px-5">
-                            {category.items.map((show) => {
-                                return <Card onClick={() => {
-                                    navigate("/show?id=" + show._id)
-                                }} thumbnail={show.thumbnail} key={show._id} />
-                            })}
-                        </div>
-
-                    </div>
-                })}
                 {
-                    (!showCollection || showCollection.length === 0) && !!searchParams.get('search') && <div className="flex items-center justify-center text-white py-10"> No search result found.</div>
+                    SECTIONS.filter((f)=>{
+                        if(searchParams.get('type')){
+                            return f === searchParams.get('type')?.toLowerCase()
+                        }
+                        return f
+                    }).map((s) => <ShowSection category={s} />)
                 }
             </div>}
             {searchParams.get('type')?.toLowerCase() === 'news' && <News />}
         </>
-
-
     )
 }
 

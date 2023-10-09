@@ -16,10 +16,14 @@
   /* Change to your desired color */
 }
 
+.splide__pagination__page{
+  background: white !important;
+  background-color: white !important;
+}
+
 .splide__pagination__page.is-active{
   width: 25px;
-  background: white;
-  background-color: white;
+ 
   border-radius: 15px;
   margin-inline: 10px;
   opacity: 1;

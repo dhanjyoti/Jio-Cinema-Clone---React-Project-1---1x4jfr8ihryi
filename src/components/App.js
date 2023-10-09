@@ -8,6 +8,7 @@ import Show from "../pages/Show";
 import Wishlist from "../pages/Wishlist";
 import Profile from "../pages/Profile";
 import Subscribe from "../pages/Subscribe";
+
 function App() {
   return (
     <Router>

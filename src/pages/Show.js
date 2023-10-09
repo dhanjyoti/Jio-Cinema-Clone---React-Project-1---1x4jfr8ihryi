@@ -75,7 +75,7 @@ const Show = () => {
     return <div className="md:pt-[30%] relative">
         <div className="relative md:absolute top-0 left-0 right-0  md:inset-0">
             <img src={show.thumbnail} className="max-h-[40vh] md:max-h-full aspect-video w-full h-full object-cover object-top" />
-            <div className="md:hidden relative w-fit -mt-5 mx-5 z-30">
+            {user && <div className="md:hidden relative w-fit -mt-5 mx-5 z-30">
                 <Button loading={wishListLoading} content={isInWishList ? "Go to wishlist" : "Add to wishlist"} onClick={() => {
                     if (!isInWishList) {
                         (async () => {
@@ -93,7 +93,7 @@ const Show = () => {
                         navigate("/wishlist")
                     }
                 }} />
-            </div>
+            </div>}
             <div className="md:hidden md:absolute p-5 py-10 flex flex-col gap-5 text-white">
             <ShowDetail show={show}/>
             </div>
@@ -101,7 +101,7 @@ const Show = () => {
         <div style={{
             background: "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 100%)"
         }} className="hidden pl-5 pr-20 py-7 gap-10 md:flex flex-row items-start relative z-10 text-white">
-            <div className="w-[180px]">
+            {user && <div className="w-[180px]">
                 <Button loading={wishListLoading} content={isInWishList ? "Go to wishlist" : "Add to wishlist"} onClick={() => {
                     if (!isInWishList) {
                         (async () => {
@@ -119,7 +119,7 @@ const Show = () => {
                         navigate("/wishlist")
                     }
                 }} />
-            </div>
+            </div>}
             <ShowDetail show={show}/>
         </div>
     </div>

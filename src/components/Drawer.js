@@ -13,7 +13,7 @@ const Drawer = ({ children, show, showChange }) => {
     return <Backdrop onClick={() => {
         showChange(false)
     }}>
-        <div className="flex flex-col fixed right-0 top-0 bottom-0 w-[360px] text-white">
+        <div className="flex flex-col fixed right-0 top-0 bottom-0 w-[360px] text-white z-50">
             <div className="h-[72px]"></div>
             <div className="bg-[#0d0e10] flex-1">{children}</div>
         </div>
