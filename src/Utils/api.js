@@ -4,8 +4,10 @@ import http from "./http"
 const getShows = async (page, type, search) => {
     let params = ''
     if(type || search){
+        console.log(type,"type");
         let title = search?{title:search}:{}
-        let filter = JSON.stringify({...{type, ...title}})
+        let t = type?{type:type}:{}
+        let filter = JSON.stringify({...{...t, ...title}})
         console.log(page, );
         params = '&filter='+encodeURIComponent(filter)
     }

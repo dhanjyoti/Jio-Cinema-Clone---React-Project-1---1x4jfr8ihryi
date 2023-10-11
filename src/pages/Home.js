@@ -28,14 +28,13 @@ const categorize = (items) => {
 
 }
 
-const ShowSection = ({ category, setChange }) => {
+const ShowSection = ({ category, onFetch }) => {
     let c = category.toLowerCase().replace(' ', '-')
     const isEnd = useScroll({ className: c })
     const [page, setPage] = useState(2)
     const fetchingRef = useRef(null)
     const [data, setData] = useState([])
     const navigate = useNavigate()
-    let [searchParams, setSearchParams] = useSearchParams();
 
     const fetchData = async (p) => {
         (async () => {
@@ -43,6 +42,7 @@ const ShowSection = ({ category, setChange }) => {
                 let res = await api.getShows(p, category?.toLocaleLowerCase())
                 if(!p){
                     setData(res.data)
+                    onFetch(res.data)
                 }else{
                     setData((prev)=>[...prev, ...res.data])
                 }
@@ -91,12 +91,15 @@ const ShowSection = ({ category, setChange }) => {
     </div>
 }
 const Home = () => {
-    const [showCollection, setShowCollection] = useState(null)
-
-    
+    const [showCollection, setShowCollection] = useState([])
     // api called for getting shows
     let [searchParams, setSearchParams] = useSearchParams();
 
+    useEffect(()=>{
+        if(showCollection && showCollection.length > 14){
+            setShowCollection((prev)=>prev.splice(0, 14))
+        }
+    },[showCollection])
     return (
         // if type is news then it will render news component
         <>
@@ -105,7 +108,7 @@ const Home = () => {
                 arrows: null,
                 autoplay: true,
             }} aria-label="Slideshow">
-                {showCollection.map((cat) => cat.items.slice(0, 2).map((item) => <SplideSlide>
+                {showCollection.map((cat) => cat.items.slice(0, 2).map((item) => <SplideSlide key={item._id}>
                     <img className="w-full aspect-video object-cover object-center max-h-[40vh]" src={item.thumbnail} alt={item.title} />
                 </SplideSlide>))}
             </Splide>}
@@ -116,7 +119,9 @@ const Home = () => {
                             return f === searchParams.get('type')?.toLowerCase()
                         }
                         return f
-                    }).map((s) => <ShowSection category={s} />)
+                    }).map((s) => <ShowSection key={s} category={s} onFetch={(data)=>{
+                        setShowCollection((prev)=>[...prev, {category:s, items:data.splice(0, 2)}])
+                    }}/>)
                 }
             </div>}
             {searchParams.get('type')?.toLowerCase() === 'news' && <News />}

@@ -6,6 +6,13 @@ import Button from "../components/Button";
 import Avatar from "../components/Avatar";
 import useUser from "../Utils/useUser";
 import NavItem, { NavSeparator } from "../components/NavItem";
+import Footer from "../components/Footer";
+import HomeIcon from "../icons/home";
+import MovieIcon from "../icons/movie";
+import TvShowIcon from "../icons/tvshow";
+import MoreIcon from "../icons/more";
+
+
 
 // added array for Navbar Links.
 const navItems = [
@@ -35,7 +42,7 @@ const navItems = [
   }
 ]
 
-const FooterList = [
+const footerItems = [
   {
     label: "For you",
     to: "/"
@@ -47,20 +54,52 @@ const FooterList = [
   {
     label: "Tv show",
     to: "/?type=Tv show"
+  },
+  {
+    label: "Movie",
+    to: "/?type=movie"
+  }
+]
+
+const FooterList = [
+  {
+    label: "For you",
+    to: "/",
+    icon:<HomeIcon/>
+  },
+  {
+    label: "Movie",
+    to: "/?type=movie",
+    icon:<MovieIcon/>
+  },
+  {
+    label: "Tv show",
+    to: "/?type=Tv show",
+    icon:<TvShowIcon/>
   }
 ]
 const FooterMenu = ({onMoreClicked}) => {
   const location = useLocation()
   return <ul className=" px-2 bg-[#0d0e10] fixed bottom-0 left-0 right-0 flex flex-row items-center justify-around z-50 text-white" style={{boxShadow: '0px -10px 20px -4px rgba(0,0,0,0.75)'}}>
     {FooterList.map((fl)=>{
-      return <FooterLink key={fl.to} to={fl.to} active={"/"+decodeURIComponent(location.search) === fl.to}>{fl.label}</FooterLink>})}
-    <li onClick={onMoreClicked} className="text-sm md:text-md py-5 text-center text-white md:font-bold  block">More</li>
+      return <FooterLink key={fl.to} icon={fl.icon} to={fl.to} active={"/"+decodeURIComponent(location.search) === fl.to}>{fl.label}</FooterLink>})}
+    <li onClick={onMoreClicked} className="flex flex-col items-center justify-between gap-1 text-sm md:text-md py-5 text-center text-white md:font-bold">
+      <span className="h-5 block">
+      <MoreIcon/>
+      </span>
+      More
+      </li>
   </ul>
 }
 
-const FooterLink = ({ children, to, active }) => {
+const FooterLink = ({ children, to, icon, active }) => {
   return (
-      <li className=""><Link to={to} className="text-sm md:text-md py-5 text-center text-white md:font-bold  block" style={active ? { color: "#ff4ef5" } : {}}>{children}</Link></li>
+      <li className=""><Link to={to} className="flex flex-col items-center gap-1 text-sm md:text-md py-5 text-center text-white md:font-bold" style={active ? { color: "#ff4ef5" } : {}}>
+        <span className="h-5 block">
+        {icon}
+        </span>
+        {children}
+        </Link></li>
   )
 }
 
@@ -129,6 +168,7 @@ const Layout = () => {
          setOpenDrawer((prev)=>!prev)
       }}/>
       </div>
+      <Footer items={footerItems}/>
     </div>
   )
 }

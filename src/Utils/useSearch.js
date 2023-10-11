@@ -12,7 +12,7 @@ const useSearch = ()=>{
 
         console.log(params, "...params");
 
-     navigate('/?'+params)
+     navigate('/search/?'+params)
     }
     
     return {search}

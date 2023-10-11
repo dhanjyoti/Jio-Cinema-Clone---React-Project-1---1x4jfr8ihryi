@@ -1,4 +1,4 @@
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Avatar from "./Avatar";
 import Search from "./Search";
 import useSearch from "../Utils/useSearch";
@@ -18,7 +18,11 @@ const Header = ({ items = [], onAvatarClicked }) => {
 
     const [searchText, setSearchText] = useState(null)
 
+    const navigate = useNavigate()
+
     const location = useLocation()
+
+    const isSearchPage = location.pathname.replaceAll('/', '') === "search"
 
     useEffect(() => {
         if (searchText !== null) {
@@ -28,6 +32,20 @@ const Header = ({ items = [], onAvatarClicked }) => {
 
 
     const [showSearch, setShowSearch] = useState()
+
+    useEffect(() => {
+        if (isSearchPage) {
+            setShowSearch(true)
+        }else{
+            setShowSearch(false)
+            setSearchText(null)
+        }
+        
+    }, [location])
+
+    useEffect(()=>{
+        
+    },[])
 
     return (
         <div className="fixed top-0 left-0 right-0 z-50 bg-[#0d0e10] flex flex-row items-center py-4 pr-3 sm:px-4 lg:px-0">
@@ -42,17 +60,31 @@ const Header = ({ items = [], onAvatarClicked }) => {
             <div className="hidden flex-row items-center lg:flex">
                 <ul className="flex flex-row items-center gap-1 flex-1">
                     {/* created unique key using href(item.to) and item.label*/}
-                    {items.map((item) => <HeaderLink active={"/"+decodeURIComponent(location.search) === item.to} key={item.to + item.label} to={item.to}>{item.label}</HeaderLink>)}
+                    {items.map((item) => <HeaderLink active={("/" + decodeURIComponent(location.search) === item.to)&& !isSearchPage} key={item.to + item.label} to={item.to}>{item.label}</HeaderLink>)}
                 </ul>
             </div>
             <div className="flex-1 flex flex-row items-center justify-end">
                 <div className="hidden w-full lg:w-[180px] lg:block">
-                    <Search placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
+                    <Search onClick={() => {
+                        if (!isSearchPage) {
+                            navigate("/search")
+                        }
+                    }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
                 </div>
-                {showSearch && <div className="w-full lg:w-[180px] lg:hidden">
-                    <Search placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
+                {(showSearch || isSearchPage) && <div className="w-full lg:w-[180px] lg:hidden">
+                    <Search onClick={() => {
+                        if (!isSearchPage) {
+                            navigate("/search")
+                        }
+                    }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
                 </div>}
-                <div className="ml-5 cursor-pointer lg:hidden" onClick={() => setShowSearch((prev) => !prev)}>{!showSearch ? <SearchIcon /> : <span className="text-4xl font-thin text-white">×</span>}</div>
+                <div className="ml-5 cursor-pointer lg:hidden" onClick={() => {
+                    if (isSearchPage) {
+                        setShowSearch((prev) => !prev)
+                    } else {
+                        navigate("/search")
+                    }
+                }}>{!showSearch && <SearchIcon />}</div>
                 <div className=" hidden sm:flex ml-5 pr-5">
                     <Avatar logo={"https://www.jiocinema.com/images/profile/kids.svg"} onClick={onAvatarClicked} />
                 </div>
