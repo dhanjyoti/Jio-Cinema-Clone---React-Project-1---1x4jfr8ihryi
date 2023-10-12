@@ -125,13 +125,13 @@ const Layout = () => {
       <Header items={navItems} onAvatarClicked={() => {
         setOpenDrawer(true)
       }} />
-      <div className="pb-2">
+      <div className="pb-2 min-h-screen">
       <Outlet />
       </div>
       <Drawer show={openDrawer} showChange={() => setOpenDrawer(false)}>
         <div className="p-4">
           <div className="rounded-lg bg-[#ffffff29] mt-10 px-4 py-6 flex flex-col gap-4 items-center">
-            <div className="-mt-11"><Avatar /></div>
+            <div className="-mt-11"><Avatar logo={user?user.data.profileImage:null}/></div>
             <div>{user ? <div className="flex flex-col items-center">
               <div className="font-bold text-2xl">{user.data?.name}</div>
               <div className="text-xs">{user.data?.email}</div>

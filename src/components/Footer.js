@@ -22,7 +22,7 @@ const FooterSection = ({ items, title }) => {
     </div>
 }
 const Footer = ({ items }) => {
-    return <div className="flex flex-col">
+    return <div className="flex flex-col pb-3 md:pb-[84px] lg:pb-0">
         <div className="bg-[#17181A] pt-12 pb-6 px-6 flex flex-col gap-6 md:flex-row justify-between">
             <FooterSection items={items} title={"JioCinema"} />
             <FooterSection items={support} title={"Support"} />

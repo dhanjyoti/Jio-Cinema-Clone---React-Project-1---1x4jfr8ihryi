@@ -4,6 +4,7 @@ import Search from "./Search";
 import useSearch from "../Utils/useSearch";
 import { useEffect, useState } from "react";
 import SearchIcon from "../icons/search";
+import useUser from "../Utils/useUser";
 
 //  added props with name children and to inside arrow function.
 
@@ -15,6 +16,8 @@ const HeaderLink = ({ children, to, active }) => {
 
 const Header = ({ items = [], onAvatarClicked }) => {
     const { search } = useSearch()
+
+    const {user} = useUser()
 
     const [searchText, setSearchText] = useState(null)
 
@@ -43,10 +46,6 @@ const Header = ({ items = [], onAvatarClicked }) => {
         
     }, [location])
 
-    useEffect(()=>{
-        
-    },[])
-
     return (
         <div className="fixed top-0 left-0 right-0 z-50 bg-[#0d0e10] flex flex-row items-center py-4 pr-3 sm:px-4 lg:px-0">
             {!showSearch && <span className="flex flex-row items-center lg:hidden">
@@ -71,7 +70,7 @@ const Header = ({ items = [], onAvatarClicked }) => {
                         }
                     }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
                 </div>
-                {(showSearch || isSearchPage) && <div className="w-full lg:w-[180px] lg:hidden">
+                {(showSearch || isSearchPage) && <div className="ml-5 w-full lg:w-[180px] lg:hidden">
                     <Search onClick={() => {
                         if (!isSearchPage) {
                             navigate("/search")
@@ -86,7 +85,7 @@ const Header = ({ items = [], onAvatarClicked }) => {
                     }
                 }}>{!showSearch && <SearchIcon />}</div>
                 <div className=" hidden sm:flex ml-5 pr-5">
-                    <Avatar logo={"https://www.jiocinema.com/images/profile/kids.svg"} onClick={onAvatarClicked} />
+                    <Avatar logo={user?user.data.profileImage:"https://www.jiocinema.com/images/profile/kids.svg"} onClick={onAvatarClicked} />
                 </div>
             </div>
         </div>
