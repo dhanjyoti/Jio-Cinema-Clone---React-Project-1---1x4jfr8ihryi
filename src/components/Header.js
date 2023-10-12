@@ -59,7 +59,7 @@ const Header = ({ items = [], onAvatarClicked }) => {
             <div className="hidden flex-row items-center lg:flex">
                 <ul className="flex flex-row items-center gap-1 flex-1">
                     {/* created unique key using href(item.to) and item.label*/}
-                    {items.map((item) => <HeaderLink active={("/" + decodeURIComponent(location.search) === item.to)&& !isSearchPage} key={item.to + item.label} to={item.to}>{item.label}</HeaderLink>)}
+                    {items.map((item) => <HeaderLink active={("/" + decodeURIComponent(location.search.toLowerCase()) === item.to.toLowerCase())&& !isSearchPage} key={item.to + item.label} to={item.to}>{item.label}</HeaderLink>)}
                 </ul>
             </div>
             <div className="flex-1 flex flex-row items-center justify-end">

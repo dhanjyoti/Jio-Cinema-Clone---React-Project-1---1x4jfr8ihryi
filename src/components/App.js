@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Outlet, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, Link, useLocation } from "react-router-dom";
 import "../styles/App.css";
 import Home from "../pages/Home";
 import Layout from "../pages/Layout";
@@ -9,8 +9,10 @@ import Wishlist from "../pages/Wishlist";
 import Profile from "../pages/Profile";
 import Subscribe from "../pages/Subscribe";
 import Search from "../pages/Search";
+import { useEffect } from "react";
 
 function App() {
+
   return (
     <Router>
       <Routes>

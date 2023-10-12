@@ -12,6 +12,18 @@ import ArrowRight from "../icons/Arrow.svg"
 import { ScrollContainer } from 'react-indiana-drag-scroll';
 import 'react-indiana-drag-scroll/dist/style.css'
 
+import Image1 from "../images/pic1.webp"
+import Image2 from "../images/pic2.webp"
+import Image3 from "../images/pic3.webp"
+import Image4 from "../images/pic4.jpg"
+import Image5 from "../images/pic5.webp"
+import Image6 from "../images/pic6.webp"
+import Image7 from "../images/pic7.jpg"
+import Image8 from "../images/pic8.jpg"
+import Image9 from "../images/pic9.webp"
+
+const Images = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9]
+
 const SECTIONS = ["video song", "web series", "tv show", "short film", "movie", "documentary", "trailer"]
 const categorize = (items) => {
 
@@ -39,6 +51,7 @@ const ShowSection = ({ category, onFetch }) => {
     const fetchingRef = useRef(null)
     const [data, setData] = useState([])
     const navigate = useNavigate()
+    let [searchParams, setSearchParams] = useSearchParams();
 
     const [scrolledLeft, setScrolledLeft]=useState(false)
 
@@ -108,9 +121,9 @@ const ShowSection = ({ category, onFetch }) => {
     return <div key={category} className="select-none flex flex-col">
         <div className="select-none flex flex-row justify-between items-center text-white whitespace-nowrap font-bold text-xl py-4 pl-5">
             <div>{titleCase(category)}</div>
-            <div className="px-5 cursor-pointer" onClick={() => {
+           {!searchParams.get('type') && <div className="px-5 cursor-pointer" onClick={() => {
                 navigate("/?type=" + category)
-            }}><img src={ArrowRight} /></div>
+            }}><img src={ArrowRight} /></div>}
         </div>
         <div className="relative group">
             <ScrollContainer onScroll={onScrollerScrolls} className={c}  ref={scroller}>
@@ -150,14 +163,19 @@ const Home = () => {
     return (
         // if type is news then it will render news component
         <>
-            {showCollection && showCollection.length > 0 && <Splide options={{
+            { Images.length > 0 && <Splide options={{
                 type: 'loop',
                 arrows: null,
                 autoplay: true,
             }} aria-label="Slideshow">
-                {showCollection.map((cat) => cat.items.slice(0, 2).map((item) => <SplideSlide key={item._id}>
-                    <img className="w-full aspect-video object-cover object-center max-h-[40vh]" src={item.thumbnail} alt={item.title} />
-                </SplideSlide>))}
+                {Images.map((cat, index) => <SplideSlide key={cat}>
+                    <img className="w-full aspect-video object-cover object-top max-h-[60vh]" src={cat} alt={cat} />
+                    <div className="absolute bottom-0 left-0 right-0 w-full pb-5" style={{ background: "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)" }}>
+                        <div className="flex flex-col gap-1 md:max-w-[50%] mb-5 py-3 px-3 md:pl-20" >
+                            <div className="text-4xl font-bold">&nbsp;{showCollection?.[index]?.items[0]?.title ? titleCase(showCollection?.[index]?.items[0]?.title) : ''}</div>
+                        </div>
+                    </div>
+                </SplideSlide>)}
             </Splide>}
             {searchParams.get('type')?.toLowerCase() !== 'news' && <div className="flex flex-col gap-2 w-full">
                 {

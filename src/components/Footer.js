@@ -17,7 +17,7 @@ const FooterSection = ({ items, title }) => {
     return <div className="flex flex-col gap-4">
         <div className="text-lg font-bold">{title}</div>
         <ul className="flex flex-col gap-3 text-sm">
-            {items?.map((i) => <li><a href={i.to}>{i.label}</a></li>)}
+            {items?.map((i) => <li key={i.to+i.label}><a href={i.to}>{i.label}</a></li>)}
         </ul>
     </div>
 }

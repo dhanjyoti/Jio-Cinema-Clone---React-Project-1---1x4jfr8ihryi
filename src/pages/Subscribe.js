@@ -55,13 +55,13 @@ const Subscribe = () => {
                 arrows: null,
                 autoplay: true,
             }} aria-label="Slideshow">
-                {showCollection.map((cat) => cat.items.slice(0, 1).map((item) => <SplideSlide className="relative">
+                {showCollection.map((cat) => cat.items.slice(0, 1).map((item) => <SplideSlide key={item._id} className="relative">
                     <img className="w-full aspect-video object-cover object-center max-h-[40vh]" src={item.thumbnail} alt={item.title} />
                     <div className="absolute bottom-0 left-0 right-0 w-full pb-5" style={{ background: "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)" }}>
                         <div className="flex flex-col gap-1 md:max-w-[50%] py-3 px-3 md:pl-20" >
                             <div className="text-2xl font-bold">&nbsp;{titleCase(cat?.category)}</div>
                             <div className="flex flex-row flex-wrap items-center text-xs">{cat?.items?.slice(0, 7).map((item, index) => {
-                                return <div key={item._id} className="after:content-[','] last:after:content-['']">&nbsp;&nbsp;{item.title}</div>
+                                return <div key={item._id+""+index} className="after:content-[','] last:after:content-['']">&nbsp;&nbsp;{item.title}</div>
                             })}</div>
                         </div>
                     </div>
