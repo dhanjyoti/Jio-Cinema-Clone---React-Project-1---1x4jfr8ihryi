@@ -13,7 +13,7 @@ const Login = ({})=>{
     
     useEffect(()=>{
         if(user){
-            navigate("/")
+            location.href = "/"
         }
     },[user])
 
