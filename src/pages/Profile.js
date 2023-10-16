@@ -106,7 +106,7 @@ const Profile = ({ }) => {
             <a className="text-white text-xl" href="/">{'Profile'}</a>
         </div>
         <div className="relative flex flex-col gap-2 items-center">
-            <Avatar logo={user.data.profileImage ? user.data.profileImage : null} />
+            <Avatar logo={user?.data?.profileImage ? user?.data?.profileImage : null} />
             <label className="block text-sky-600 cursor-pointer">
                 <span>Choose profile photo</span>
                 <input value={profile} type="file" class="hidden" onChange={async (e) => {

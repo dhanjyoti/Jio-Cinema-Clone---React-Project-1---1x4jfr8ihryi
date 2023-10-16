@@ -138,10 +138,10 @@ const Layout = () => {
       <Drawer show={openDrawer} showChange={() => setOpenDrawer(false)}>
         <div className="p-4">
           <div className="rounded-lg bg-[#ffffff29] mt-10 px-4 py-6 flex flex-col gap-4 items-center">
-            <div className="-mt-11"><Avatar logo={user.data.profileImage?user.data.profileImage:'https://www.jiocinema.com/images/profile/kids.svg'}/></div>
+            <div className="-mt-11"><Avatar logo={user?.data?.profileImage?user?.data?.profileImage:'https://www.jiocinema.com/images/profile/kids.svg'}/></div>
             <div>{user ? <div className="flex flex-col items-center">
               <div className="font-bold text-2xl">{user.data?.name}</div>
-              <div className="text-xs">{user.data?.email}</div>
+              <div className="text-xs">{user?.data?.email}</div>
             </div> : "Guest"}</div>
             {/* If there is no user logged in then it will show login and register ui. */}
             {!user && <>

@@ -85,7 +85,7 @@ const Header = ({ items = [], onAvatarClicked }) => {
                     }
                 }}>{!showSearch && <SearchIcon />}</div>
                 <div className=" hidden sm:flex ml-5 pr-5">
-                    <Avatar logo={user.data.profileImage?user.data.profileImage:"https://www.jiocinema.com/images/profile/kids.svg"} onClick={onAvatarClicked} />
+                    <Avatar logo={user?.data?.profileImage?user?.data?.profileImage:"https://www.jiocinema.com/images/profile/kids.svg"} onClick={onAvatarClicked} />
                 </div>
             </div>
         </div>
