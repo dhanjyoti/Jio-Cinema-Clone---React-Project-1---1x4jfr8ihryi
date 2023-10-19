@@ -1,4 +1,3 @@
-import { titleCase } from "./commons";
 import http from "./http"
 
 const getShows = async (page, type, search) => {

@@ -10,4 +10,4 @@ const Card = ({thumbnail, onClick, loading}) => {
   )
 }
 
-export default Card
+export default Card 

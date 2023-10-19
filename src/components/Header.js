@@ -25,7 +25,7 @@ const Header = ({ items = [], onAvatarClicked }) => {
 
     const location = useLocation()
 
-    const isSearchPage = location.pathname.replaceAll('/', '') === "search"
+    const isSearchPage = location.pathname.replaceAll('/', '') === "search" 
 
     useEffect(() => {
         if (searchText !== null) {
@@ -64,11 +64,11 @@ const Header = ({ items = [], onAvatarClicked }) => {
             </div>
             <div className="flex-1 flex flex-row items-center justify-end">
                 <div className="hidden w-full lg:w-[180px] lg:block">
-                    <Search onClick={() => {
+                    <Search onClick={() => {   {/* Input for the search i,e. on useSearch.js file */}
                         if (!isSearchPage) {
                             navigate("/search")
                         }
-                    }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} />
+                    }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} /> {/* Whenever SearchText changes line no.18 is called */}
                 </div>
                 {(showSearch || isSearchPage) && <div className="ml-5 w-full lg:w-[180px] lg:hidden">
                     <Search onClick={() => {

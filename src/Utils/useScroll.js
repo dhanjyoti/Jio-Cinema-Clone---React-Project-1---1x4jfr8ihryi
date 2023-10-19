@@ -1,3 +1,5 @@
+//to detect where the scroller is reached to end so that we can fetch next page of shows. (infinite scroll)
+
 import { useEffect, useState } from "react"
 
 const useScroll = ({className})=>{
@@ -19,4 +21,4 @@ const useScroll = ({className})=>{
     return isEnd
 }
 
-export default useScroll
+export default useScroll;

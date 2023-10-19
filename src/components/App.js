@@ -9,7 +9,6 @@ import Wishlist from "../pages/Wishlist";
 import Profile from "../pages/Profile";
 import Subscribe from "../pages/Subscribe";
 import Search from "../pages/Search";
-import { useEffect } from "react";
 
 function App() {
 

@@ -59,9 +59,11 @@ const ShowSection = ({ category, onFetch }) => {
         (async () => {
             try {
                 let res = await api.getShows(p, category?.toLocaleLowerCase())
+                    // If no page no. or page shown first time
                 if (!p) {
                     setData(res.data)
                     onFetch(res.data)
+                    // If used before, it will append to previous data
                 } else {
                     setData((prev) => [...prev, ...res.data])
                 }
@@ -126,6 +128,7 @@ const ShowSection = ({ category, onFetch }) => {
             }}><img src={ArrowRight} /></div>}
         </div>
         <div className="relative group">
+            {/* For horizontal scrolling react-indiana-scroller is used */}
             <ScrollContainer onScroll={onScrollerScrolls} className={c}  ref={scroller}>
                 <div className={"group relative flex flex-row items-center gap-3 px-5"}>
                     {data.map((show) => {
