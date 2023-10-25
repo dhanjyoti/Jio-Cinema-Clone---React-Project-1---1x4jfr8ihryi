@@ -10,14 +10,14 @@ const Login = ({})=>{
     const [password, setPassword]=useState('')
 
     const {user, setUser}=useUser()
-    
+    const navigate = useNavigate()
     useEffect(()=>{
         if(user){
-            location.href = "/"
+           navigate("/")
         }
     },[user])
 
-    const navigate = useNavigate()
+    
     const handleSubmit = (e)=>{
         e.preventDefault()
         console.log("submitted");

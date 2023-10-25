@@ -4,6 +4,9 @@ import api from "../Utils/api";
 import Button from "../components/Button"
 import { titleCase } from "../Utils/commons";
 import useUser from "../Utils/useUser";
+import WatchIcon from "../icons/watch";
+import WishlistIcon from "../icons/wishlist";
+import AddIcon from "../icons/add";
 
 const ShowDetail = ({ show }) => {
     return <>
@@ -42,9 +45,10 @@ const Show = () => {
     const checkWishlist = async () => {
         try {
             const res = await api.getWishlist()
+            console.log(res);
             setIsInWishlist(!!res.data.shows.find((s) => s._id === searchParams.get('id')))
         } catch {
-
+            setIsInWishlist(false)
         }
     }
 
@@ -75,8 +79,13 @@ const Show = () => {
     return <div className="md:pt-[30%] relative">
         <div className="relative md:absolute top-0 left-0 right-0  md:inset-0">
             <img src={show.thumbnail} className="max-h-[40vh] md:max-h-full aspect-video w-full h-full object-cover object-top" />
-            {user && <div className="md:hidden relative w-fit -mt-5 mx-5 z-30">
-                <Button loading={wishListLoading} content={isInWishList ? "Go to wishlist" : "Add to wishlist"} onClick={() => {
+            
+            {/* mobile version */}
+            {user && <div className="md:hidden relative w-fit -mt-5 mx-5 z-30 flex flex-row gap-2">
+                <Button content={<WatchIcon/>} onClick={()=>{
+                    navigate("/watch?id="+searchParams.get('id'))
+                }}/>
+                <Button loading={wishListLoading} content={isInWishList ? <WishlistIcon/> : <AddIcon/>} onClick={() => {
                     if (!isInWishList) {
                         (async () => {
                             try {
@@ -98,10 +107,18 @@ const Show = () => {
             <ShowDetail show={show}/>
             </div>
         </div>
+
+        {/* Desktop version */}
         <div style={{
             background: "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 100%)"
         }} className="hidden pl-5 pr-20 py-7 gap-10 md:flex flex-row items-start relative z-10 text-white">
-            {user && <div className="w-[180px]">
+            {user && <div className="w-[320px] flex flex-row gap-3">
+
+               <div className="w-[150px]">
+               <Button content={"Watch"} onClick={()=>{
+                    navigate("/watch?id="+searchParams.get('id'))
+                }}/>     
+                </div>
                 <Button loading={wishListLoading} content={isInWishList ? "Go to wishlist" : "Add to wishlist"} onClick={() => {
                     if (!isInWishList) {
                         (async () => {

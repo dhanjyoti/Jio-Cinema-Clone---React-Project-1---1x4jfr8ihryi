@@ -9,6 +9,7 @@ import Wishlist from "../pages/Wishlist";
 import Profile from "../pages/Profile";
 import Subscribe from "../pages/Subscribe";
 import Search from "../pages/Search";
+import Watch from "../pages/watch";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route element={<Login />} path="/login"/>
           <Route element={<Register />} path="/register"/>
           <Route element={<Show />} path="show"/>
+          <Route element={<Watch />} path="watch"/>
           <Route element={<Wishlist />} path="/wishlist"/>
           <Route element={<Profile />} path="/profile"/>
           <Route element={<Search />} path="/search"/> {/* If we try to get in any page apart from our routes it will automatically redirect to home page */}
