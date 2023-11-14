@@ -2,14 +2,14 @@
 
 import { useNavigate } from "react-router-dom"
 
-const useSearch = ()=>{
+const   useSearch = ()=>{
     const navigate = useNavigate()
 
     const search = (text)=>{
 
         let params = ''
         if(text){
-            params = '&search='+encodeURIComponent(text)
+            params = '&search='+encodeURIComponent(text)    // encode is used since we cannot use reserved character in search parameter Eg-> &, $ -> inside the url -> should be encoded
         }
 
         console.log(params, "...params");

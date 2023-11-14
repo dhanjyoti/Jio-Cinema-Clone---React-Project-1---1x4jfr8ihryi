@@ -4,4 +4,4 @@ const NavItem = ({children, onClick})=>{
 
 export const NavSeparator = ()=><div className="h-px my-3 bg-gray-300"></div>
 
-export default NavItem
+export default NavItem;

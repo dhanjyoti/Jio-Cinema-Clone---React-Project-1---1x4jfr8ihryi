@@ -15,7 +15,7 @@ const HeaderLink = ({ children, to, active }) => {
 }
 
 const Header = ({ items = [], onAvatarClicked }) => {
-    const { search } = useSearch()
+    const { search } = useSearch()      // This is a custom hook
 
     const {user} = useUser()
 
@@ -68,7 +68,10 @@ const Header = ({ items = [], onAvatarClicked }) => {
                         if (!isSearchPage) {
                             navigate("/search")
                         }
-                    }} placeholder={"Search"} value={searchText === null ? '' : searchText} onChange={({ target }) => setSearchText(target.value)} /> {/* Whenever SearchText changes line no.18 is called */}
+                    }} 
+                    placeholder={"Search"} 
+                    value={searchText === null ? '' : searchText} 
+                    onChange={({ target }) => setSearchText(target.value)} /> {/* Whenever SearchText changes line no.18 is called */}
                 </div>
                 {(showSearch || isSearchPage) && <div className="ml-5 w-full lg:w-[180px] lg:hidden">
                     <Search onClick={() => {
