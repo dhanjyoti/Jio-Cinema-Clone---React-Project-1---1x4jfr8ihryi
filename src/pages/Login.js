@@ -4,6 +4,8 @@ import Button from "../components/Button"
 import api from "../Utils/api"
 import { useNavigate } from "react-router-dom"
 import useUser from "../Utils/useUser"
+import {toast} from "react-toastify"
+
 
 const Login = ({})=>{
     const [email, setEmail]=useState('')
@@ -16,6 +18,7 @@ const Login = ({})=>{
            navigate("/")
         }
     },[user])
+    
 
     
     const handleSubmit = (e)=>{
@@ -26,13 +29,13 @@ const Login = ({})=>{
             let res = await api.login({data:{email, password, appType:"ott"}})
             setUser(res)
            } catch (error) {
-            alert('error')
-            console.log(error)
+            // alert('error')
+            console.log(error?.response?.data?.message)
+            toast.error(error?.response?.data?.message);
            }
             
         })()
     }
-
 
     if(user){
         return null
